@@ -2,7 +2,7 @@ import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
 import { TodoItems } from "../tables/todoitems.ts";
 
 export const GetAllItems = DefineFunction(
-  "get_all_items",
+  "get_all",
   {
     title: "Get all TODO items",
     description: "Get all TODO items",
