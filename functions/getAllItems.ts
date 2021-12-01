@@ -1,16 +1,12 @@
 import { DefineFunction, Schema } from "slack-cloud-sdk/mod.ts";
 import { TodoItems } from "../tables/todoitems.ts";
 
-export const GetById = DefineFunction(
-  "get_by_id",
+export const GetAllItems = DefineFunction(
+  "get_all_items",
   {
     title: "Get all TODO items",
     description: "Get all TODO items",
     input_parameters: {
-      id: {
-        type: Schema.types.string,
-        description: "ID on the TODO item",
-      },
       channel: {
         type: Schema.slack.types.channel_id,
         description: "Channel",
@@ -19,7 +15,7 @@ export const GetById = DefineFunction(
     output_parameters: {
       result: {
         type: Schema.types.string,
-        description: "The TODO item",
+        description: "The TODO items",
       },
       channel: {
         type: Schema.slack.types.channel_id,
@@ -29,9 +25,9 @@ export const GetById = DefineFunction(
   },
   async ({ inputs, client }) => {
     const tables = TodoItems.api(client);
-    const item = await tables.get(inputs.id);
+    const items = await tables.query();
 
-    if (!item.ok) {
+    if (!items.ok) {
       return {
         outputs: {
           result: `Failed to list all indexes because of unknown error.`,
@@ -40,7 +36,7 @@ export const GetById = DefineFunction(
       };
     }
 
-    if (!item.row) {
+    if (items.rows.length === 0) {
       return {
         outputs: {
           result: `There is no term in the glossary.`,
@@ -48,10 +44,18 @@ export const GetById = DefineFunction(
         },
       };
     }
-    const resutlStr = `${item.id}+" "+${item.assign_to}+" "+${item.is_done}`;
+
+    let returnString: string;
+    const returnText = items.rows.map((t, i) => {
+      returnString = "";
+      returnString += `\`${t.id}\` -- ${t.title} -- ${t.is_done}`;
+      return returnString;
+    })
+      .reduce((pre, cur) => pre + "\n" + cur);
+
     return {
       outputs: {
-        result: resutlStr,
+        result: returnText,
         channel: inputs.channel,
       },
     };
