@@ -43,12 +43,14 @@ export const GetById = DefineFunction(
     if (!item.row) {
       return {
         outputs: {
-          result: `There is no term in the glossary.`,
+          result: `There is no data.`,
           channel: inputs.channel,
         },
       };
     }
-    const resutlStr = `${item.id}+" "+${item.assign_to}+" "+${item.is_done}`;
+    const resutlStr =
+      `\`${item.row.id}\` -- ${item.row.title} -- ${item.row.assign_to} -- ${item.row.is_done}`;
+
     return {
       outputs: {
         result: resutlStr,

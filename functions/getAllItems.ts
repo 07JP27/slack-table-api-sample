@@ -39,7 +39,7 @@ export const GetAllItems = DefineFunction(
     if (items.rows.length === 0) {
       return {
         outputs: {
-          result: `There is no term in the glossary.`,
+          result: `There is no data.`,
           channel: inputs.channel,
         },
       };
@@ -48,7 +48,8 @@ export const GetAllItems = DefineFunction(
     let returnString: string;
     const returnText = items.rows.map((t, i) => {
       returnString = "";
-      returnString += `\`${t.id}\` -- ${t.title} -- ${t.is_done}`;
+      returnString +=
+        `\`${t.id}\` -- ${t.title} -- ${t.assign_to} -- ${t.is_done}`;
       return returnString;
     })
       .reduce((pre, cur) => pre + "\n" + cur);
