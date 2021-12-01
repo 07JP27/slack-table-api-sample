@@ -29,9 +29,16 @@ export const GetById = DefineFunction(
   },
   async ({ inputs, client }) => {
     const tables = TodoItems.api(client);
-    const result = await tables.get(inputs.id);
-    const resutlStr = result.toString();
+    const result_resp = await tables.get(inputs.id);
 
+    if (!result_resp.ok) {
+      return {
+        error: result_resp.error || "Error finding timeblocks for user",
+      };
+    }
+    const todo_row = result_resp.row || [];
+    const resutlStr =
+      `${todo_row.id}+" "+${todo_row.assign_to}+" "+${todo_row.is_done}`;
     return await {
       outputs: { result: resutlStr, channel: inputs.channel },
     };
