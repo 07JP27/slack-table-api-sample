@@ -1,7 +1,10 @@
 import { Project } from "slack-cloud-sdk/mod.ts";
 import { CreateItem } from "./functions/create.ts";
+import { GetById } from "./functions/getById.ts";
 import { CreateTodoItem } from "./workflows/create_todoitem.ts";
+import { GetTodoItemById } from "./workflows/get_item_by_id.ts";
 import { CreateItemShortcut } from "./triggers/create_item_shortcut.ts";
+import { GetItemByIdShortcut } from "./triggers/get_by_id_shortcut.ts";
 import { TodoItems } from "./tables/todoitems.ts";
 
 Project({
@@ -17,9 +20,9 @@ Project({
     "tables:read",
     "tables:write",
   ],
-  functions: [CreateItem],
-  workflows: [CreateTodoItem],
-  triggers: [CreateItemShortcut],
+  functions: [CreateItem, GetById],
+  workflows: [CreateTodoItem, GetTodoItemById],
+  triggers: [CreateItemShortcut, GetItemByIdShortcut],
   tables: [TodoItems],
   outgoingDomains: [],
 });
