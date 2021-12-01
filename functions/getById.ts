@@ -4,8 +4,8 @@ import { TodoItems } from "../tables/todoitems.ts";
 export const GetById = DefineFunction(
   "get_by_id",
   {
-    title: "Get all TODO items",
-    description: "Get all TODO items",
+    title: "Get TODO item by ID",
+    description: "Get TODO item by ID",
     input_parameters: {
       id: {
         type: Schema.types.string,
