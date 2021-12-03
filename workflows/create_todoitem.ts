@@ -13,10 +13,6 @@ export const CreateTodoItem = DefineWorkflow("create_todo_item", {
       type: Schema.slack.types.user_id,
       description: "The user to assign the TODO item to",
     },
-    isDone: {
-      type: Schema.types.boolean,
-      description: "Whether the TODO item is done",
-    },
     channel: {
       type: Schema.slack.types.channel_id,
       description: "The channel to send the result message to",
@@ -27,7 +23,7 @@ export const CreateTodoItem = DefineWorkflow("create_todo_item", {
 const createStep = CreateTodoItem.addStep(CreateItem, {
   title: CreateTodoItem.inputs.title,
   assignTo: CreateTodoItem.inputs.assignTo,
-  isDone: CreateTodoItem.inputs.isDone,
+  isDone: false,
   channel: CreateTodoItem.inputs.channel,
 });
 
